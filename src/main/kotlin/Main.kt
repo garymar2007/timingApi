@@ -2,6 +2,7 @@ package org.gary
 
 import kotlin.math.tan
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.measureTimedValue
 
@@ -28,6 +29,14 @@ fun main() {
     println("Duration in inWholeSeconds: ${duration.inWholeSeconds}")
     println("Duration in inWholeMinutes: ${duration.inWholeMinutes}")
     println("Duration in MINUTES: ${duration.toDouble(DurationUnit.MINUTES)}")
+
+    val time = 534_600.seconds
+    time.toComponents { days, hours, minutes, seconds, nanoseconds ->
+        println("Days: $days, Hours: $hours, Minutes: $minutes, Seconds: $seconds, Nanoseconds: $nanoseconds")
+    }
+
+    println(time.toIsoString())
+    println(Duration.parseIsoStringOrNull(time.toIsoString()))
 }
 
 object SomeLongRunningProcess {
