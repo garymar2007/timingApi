@@ -4,6 +4,8 @@ import kotlin.math.tan
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
+import kotlin.time.TimeSource
+import kotlin.time.TimeSource.Monotonic.markNow
 import kotlin.time.measureTimedValue
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -45,5 +47,38 @@ object SomeLongRunningProcess {
     }
     fun calculate(): Double {
         return tan(100.00)
+    }
+}
+
+sealed interface FrameworkPlugin {
+    fun beforeOperation()
+    fun afteroperation()
+}
+
+// Traditional way of implementing stop watch
+class StopWatchPlugin : FrameworkPlugin {
+    private var startTime: Long = 0
+    override fun beforeOperation() {
+        startTime = System.nanoTime()
+    }
+
+    override fun afteroperation() {
+        val endTime = System.nanoTime()
+        val duration = (endTime - startTime!!) / 1_000_000
+        println("Execution time: $duration milliseconds")
+    }
+}
+
+// Using ValueTimeMark API
+class StopWatchPluginNew : FrameworkPlugin {
+    private var startTime: TimeSource.Monotonic.ValueTimeMark? = null
+    override fun beforeOperation() {
+        startTime = markNow()
+    }
+
+    override fun afteroperation() {
+        val endTime = markNow()
+        val duration = endTime - startTime!!
+        println("Execution time: ${duration.inWholeMilliseconds} milliseconds")
     }
 }
