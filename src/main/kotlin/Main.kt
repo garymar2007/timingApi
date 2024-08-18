@@ -1,6 +1,7 @@
 package org.gary
 
 import kotlin.time.measureTime
+import kotlin.time.measureTimedValue
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -14,15 +15,15 @@ import kotlin.time.measureTime
 //}
 
 fun main() {
-   val duration = measureTime(SomeLongRunningProcess::execute)
-    println("Execution time: $duration seconds")
+   val timedValue = measureTimedValue(SomeLongRunningProcess::calculate)
+    println("Execution time: $timedValue seconds")
 }
 
 object SomeLongRunningProcess {
     fun execute() {
         Thread.sleep(1000 * 2)
     }
-    fun calculate() {
-        Math.tan(100.00)
+    fun calculate(): Double {
+        return Math.tan(100.00)
     }
 }
