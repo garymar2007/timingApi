@@ -22,4 +22,7 @@ object SomeLongRunningProcess {
     fun execute() {
         Thread.sleep(1000 * 2)
     }
+    fun calculate() {
+        Math.tan(100.00)
+    }
 }
