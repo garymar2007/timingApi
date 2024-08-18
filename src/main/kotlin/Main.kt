@@ -1,6 +1,8 @@
 package org.gary
 
 import kotlin.math.tan
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
 import kotlin.time.measureTimedValue
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -19,6 +21,13 @@ fun main() {
     println("Execution time: $timedValue")
     println("Result: ${timedValue.value}")
     println("Duration: ${timedValue.duration}")
+
+    val duration: Duration = timedValue.duration
+    println("Duration in inWholeMicroseconds: ${duration.inWholeMicroseconds}")
+    println("Duration in inWholeMilliseconds: ${duration.inWholeMilliseconds}")
+    println("Duration in inWholeSeconds: ${duration.inWholeSeconds}")
+    println("Duration in inWholeMinutes: ${duration.inWholeMinutes}")
+    println("Duration in MINUTES: ${duration.toDouble(DurationUnit.MINUTES)}")
 }
 
 object SomeLongRunningProcess {
