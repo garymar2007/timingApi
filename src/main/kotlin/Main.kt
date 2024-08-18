@@ -1,12 +1,9 @@
 package org.gary
 
 import kotlin.math.tan
-import kotlin.time.Duration
+import kotlin.time.*
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.DurationUnit
-import kotlin.time.TimeSource
 import kotlin.time.TimeSource.Monotonic.markNow
-import kotlin.time.measureTimedValue
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -70,15 +67,17 @@ class StopWatchPlugin : FrameworkPlugin {
 }
 
 // Using ValueTimeMark API
-class StopWatchPluginNew : FrameworkPlugin {
-    private var startTime: TimeSource.Monotonic.ValueTimeMark? = null
+class StopWatchPluginNew(private val timeSource: TimeSource.WithComparableMarks) : FrameworkPlugin {
+    private lateinit var startTime: ComparableTimeMark
+    private lateinit var endTime: ComparableTimeMark
+    var duration: Duration ?= null; private set
+
     override fun beforeOperation() {
-        startTime = markNow()
+        startTime = timeSource.markNow()
     }
 
     override fun afteroperation() {
-        val endTime = markNow()
-        val duration = endTime - startTime!!
-        println("Execution time: ${duration.inWholeMilliseconds} milliseconds")
+        val endTime = timeSource.markNow()
+        duration = endTime - startTime
     }
 }
